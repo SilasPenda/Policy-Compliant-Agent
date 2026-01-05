@@ -57,9 +57,17 @@ A smart AI-powered Compliance Auditor Assistant designed to analyze documents, e
 
 4. Create .env file and add OPEN_AI_KEY
 
-5. Using NB_1.ipynb, create collections for documents and policies (policy.yaml):
+5. Create contract & policy embeddings and store in Qdrant vector database
+   ```bash
+   python ingestion/contract_ingestor.py
+   python ingestion/policy_ingestor.py
 
-6. Start App
+6. Start API
 
    ```bash
-   python app.py
+   python deployment/api.py
+   
+7. Start App
+
+   ```bash
+   python deployment/app.py
