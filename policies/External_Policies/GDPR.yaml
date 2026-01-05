@@ -1,0 +1,45 @@
+GDPR_Policy_Rules:
+  - content: "According to GDPR, personal data must not be shared with third parties without explicit consent from the data subject."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: GDPR
+      domain: privacy
+      category: data_sharing_consent
+      severity: high
+
+  - content: "Under GDPR, data subjects have the right to access their personal data and obtain information about how it is being used."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: GDPR
+      domain: privacy
+      category: data_subject_access
+      severity: medium
+
+  - content: "GDPR mandates that users must be able to withdraw consent for data processing at any time."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: GDPR
+      domain: privacy
+      category: consent_withdrawal
+      severity: high
+
+  - content: "GDPR requires data breaches to be reported within 72 hours unless unlikely to pose a risk."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: GDPR
+      domain: security
+      category: breach_notification
+      severity: critical
+
+  - content: "Personal data must be collected only for specified, explicit, and legitimate purposes."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: GDPR
+      domain: privacy
+      category: purpose_limitation
+      severity: high

@@ -1,0 +1,10 @@
+{
+  "test_1": {
+    "verdict": "Compliant",
+    "law": "General Contract"
+    },
+  "test_2": {
+    "verdict": "Non-Compliant",
+    "law": "GDPR"
+    }
+}

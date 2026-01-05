@@ -1,0 +1,27 @@
+CCPA_Policy_Rules:
+  - content: "Consumers have the right to know what personal data is collected and how it is used."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: CCPA
+      domain: privacy
+      category: right_to_know
+      severity: high
+
+  - content: "Consumers may request deletion of their personal data."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: CCPA
+      domain: privacy
+      category: right_to_delete
+      severity: high
+
+  - content: "Consumers have the right to opt out of the sale of personal data."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: CCPA
+      domain: privacy
+      category: opt_out_of_sale
+      severity: high

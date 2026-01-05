@@ -1,0 +1,27 @@
+Internal_IT_Security_Policy_Rules:
+  - content: "All employees must use multi-factor authentication when accessing sensitive systems."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: security
+      category: authentication_mfa
+      severity: high
+
+  - content: "Company laptops must use full-disk encryption."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: security
+      category: device_encryption
+      severity: high
+
+  - content: "Phishing simulations must be conducted quarterly."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: security
+      category: security_training
+      severity: medium

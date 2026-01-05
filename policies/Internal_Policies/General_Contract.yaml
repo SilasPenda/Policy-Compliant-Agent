@@ -1,0 +1,81 @@
+General_Contract_Policy_Rules:
+  - content: "Contracts must specify effective date and termination terms."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: contract_duration
+      severity: high
+
+  - content: "Governing law and jurisdiction must be stated."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: governing_law
+      severity: high
+
+  - content: "Contracts must include a clear description of deliverables, milestones, and performance obligations."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: performance_obligations
+      severity: high
+
+  - content: "Payment terms, including amounts, schedules, and penalties for late payment, must be clearly defined."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: payment_terms
+      severity: high
+
+  - content: "Contracts must include confidentiality clauses protecting proprietary and sensitive information."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: confidentiality
+      severity: high
+
+  - content: "Dispute resolution mechanisms, including mediation or arbitration procedures, must be specified."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: dispute_resolution
+      severity: medium
+
+  - content: "Force majeure and liability limitations must be included where applicable."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: liability_clauses
+      severity: medium
+
+  - content: "Amendments and modification procedures must be clearly outlined."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: contract_modifications
+      severity: medium
+
+  - content: "Termination clauses must outline conditions for early termination and associated obligations."
+    metadata:
+      source: policy_manual
+      policy_type: internal
+      authority: Company
+      domain: contracts
+      category: termination_conditions
+      severity: high

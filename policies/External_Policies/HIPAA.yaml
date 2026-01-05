@@ -1,0 +1,36 @@
+HIPAA_Policy_Rules:
+  - content: "HIPAA requires administrative, physical, and technical safeguards for ePHI."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: HIPAA
+      domain: security
+      category: security_safeguards
+      severity: high
+
+  - content: "Individuals have the right to access their health records in a timely manner."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: HIPAA
+      domain: privacy
+      category: patient_access_rights
+      severity: medium
+
+  - content: "HIPAA prohibits disclosure of PHI without authorization except for permitted uses."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: HIPAA
+      domain: privacy
+      category: unauthorized_disclosure
+      severity: high
+
+  - content: "HIPAA mandates breach notification within 60 days."
+    metadata:
+      source: policy_manual
+      policy_type: external
+      authority: HIPAA
+      domain: security
+      category: breach_notification
+      severity: critical

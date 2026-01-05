@@ -1,0 +1,36 @@
+name: Agent CI
+
+on:
+  push:
+    paths:
+      - agent/**
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build agent image
+        run: docker build -t compliance-agent .
+
+      - name: Run agent container
+        run: |
+          docker run -d \
+            --name compliance-agent \
+            -p 8080:8080 \
+            compliance-agent
+
+      # Wait for startup
+      - name: Wait for agent
+        run: sleep 10
+
+      # Smoke test
+      - name: Health check
+        run: curl http://localhost:8080/health
+
+      # Always clean up
+      - name: Cleanup
+        if: always()
+        run: docker rm -f compliance-agent
