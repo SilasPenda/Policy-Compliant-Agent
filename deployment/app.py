@@ -1,120 +1,75 @@
-import os
-import sys
-sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
-
 import gradio as gr
+import requests
 
-from src.utils import read_pdf, compute_confidence
-from agent.templates import parser
-from agent.reasoning import create_compliance_agent
+# Flask API endpoint
+API_URL = "http://localhost:8000/compliance/check"
 
-
-# Gradio execution logic
 def process_pdf_and_query(pdf_file, query):
-    document_pages = read_pdf(pdf_file.name)
-    texts = [page.extract_text() for page in document_pages if page.extract_text()]
-    full_text = "\n\n".join(texts)
-
-    agent_executor = create_compliance_agent(llm_type="openai", model_name="gpt-4o")
-
-    response = agent_executor.invoke(
-        {
-            "query": query,
-            "chunk": full_text,
-        }
-    )
+    if pdf_file is None or query.strip() == "":
+        return "Please upload a PDF and enter a compliance question."
 
     try:
-        structured = parser.parse(response.get("output"))
-
-        if structured.compliance_status == "Compliant":
-            return f""" **Compliance Status:** {structured.compliance_status}
-
-                **Compliant Policies:**
-                {chr(10).join(f"- {p}" for p in structured.compliant_policies)}
-
-                **Tools Used:**
-                {chr(10).join(f"- {tool}" for tool in structured.tools_used)}
-
-                **Similar Documents:**
-                {chr(10).join(f"- {doc}" for doc in structured.similar_documents)}
-
-                **Reasoning:**
-                {structured.reasoning}
-                """
+        # Send PDF and query to the API
+        with open(pdf_file.name, "rb") as f:
+            files = {"file": (pdf_file.name, f, "application/pdf")}
+            data = {"query": query}
+            response = requests.post(API_URL, files=files, data=data)
         
-        else:
-            return f""" **Compliance Status:** {structured.compliance_status}
+        if response.status_code != 200:
+            return f"API Error [{response.status_code}]: {response.text}"
 
-                **Violated Policies:**
-                {chr(10).join(f"- {p}" for p in structured.violated_policies)}
+        result = response.json()
+
+        if "error" in result:
+            return f"API returned an error: {result['error']}"
+
+        # Format the response for Gradio output
+        verdict = result.get("verdict", "Unknown")
+        reasoning = result.get("reasoning", "")
+        confidence = result.get("confidence", 0.0)
+
+        if verdict == "Compliant":
+            policies = result.get("compliant_policies", [])
+            policies_text = "\n".join(f"- {p}" for p in policies)
+        else:
+            policies = result.get("violated_policies", [])
+            policies_text = "\n".join(f"- {p}" for p in policies)
+
+        tools_text = "\n".join(f"- {t}" for t in result.get("tools_used", []))
+        similar_docs_text = "\n".join(f"- {d}" for d in result.get("similar_documents", []))
+
+        return f"""**Compliance Status:** {verdict}
+        
+                **Policies:** 
+                {policies_text}
 
                 **Tools Used:**
-                {chr(10).join(f"- {tool}" for tool in structured.tools_used)}
+                {tools_text}
 
                 **Similar Documents:**
-                {chr(10).join(f"- {doc}" for doc in structured.similar_documents)}
+                {similar_docs_text}
 
                 **Reasoning:**
-                {structured.reasoning}
+                {reasoning}
+
+                **Confidence:** {confidence:.2f}
                 """
 
-
-
-        # return f""" **Compliance Status:** {structured.compliance_status}
-
-        #         **Compliant Policies:**
-        #         {chr(10).join(f"- {p}" for p in structured.compliant_policies)}
-
-        #         **Violated Policies:**
-        #         {chr(10).join(f"- {p}" for p in structured.violated_policies)}
-
-        #         **Tools Used:**
-        #         {chr(10).join(f"- {tool}" for tool in structured.tools_used)}
-
-        #         **Similar Documents:**
-        #         {chr(10).join(f"- {doc}" for doc in structured.similar_documents)}
-
-        #         **Reasoning:**
-        #         {structured.reasoning}
-        #         """
-    
-        # return f""" **Compliance Status:** {structured.compliance_status}
-
-        #         **Compliant Policies:**
-        #         {structured.compliant_policies}
-
-        #         **Violated Policies:**
-        #         {structured.violated_policies}
-
-        #         **Tools Used:**
-        #         {structured.tools_used}
-
-        #         **Similar Documents:**
-        #         {structured.similar_documents}
-
-        #         **Reasoning:**
-        #         {structured.reasoning}
-        #         """
-    
     except Exception as e:
-        print("Parser Error:", e)
-        print("Raw LLM Output:", response)
-        return f"Error occurred while parsing LLM response:\n{e}"
+        return f"Error contacting API: {e}"
 
 
 # Gradio UI
 with gr.Blocks() as app:
-    gr.Markdown("## 📘 Document Compliance Assistant")
+    gr.Markdown("## 📘 Document Compliance Assistant (via API)")
 
     with gr.Row():
         pdf_input = gr.File(label="Upload a PDF", file_types=[".pdf", ".PDF"])
-        query = gr.Textbox(label="Compliance Question", placeholder="Enter your compliance question here...", lines=2)
+        query_input = gr.Textbox(label="Compliance Question", placeholder="Enter your compliance question here...", lines=2)
 
     output = gr.Textbox(label="Compliance Report", lines=20, interactive=False)
-    read_btn = gr.Button("Run Compliance Audit")
+    run_btn = gr.Button("Run Compliance Audit")
 
-    read_btn.click(fn=process_pdf_and_query, inputs=[pdf_input, query], outputs=output)
-
+    run_btn.click(fn=process_pdf_and_query, inputs=[pdf_input, query_input], outputs=output)
 
 app.launch(pwa=True, server_name="0.0.0.0", server_port=8501)
