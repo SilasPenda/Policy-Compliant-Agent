@@ -39,8 +39,9 @@ A smart AI-powered Compliance Auditor Assistant designed to analyze documents, e
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/SilasPenda/Policy-Compliant-Auditing-Agent
-   cd policy-compliance-auditor
+   git clone
+   https://github.com/SilasPenda/Policy-Compliant-Agent.git
+   cd Policy-Compliance-Agent
 
 2. Create & activate virtual environment:
 
@@ -55,7 +56,7 @@ A smart AI-powered Compliance Auditor Assistant designed to analyze documents, e
    python -m pip install --upgrade pip
    pip install -r requirements.txt
 
-4. Create .env file and add OPEN_AI_KEY
+4. Create .env file and add necessary secrets (API/Database access keys, secret variables, etc"
 
 5. Create contract & policy embeddings and store in Qdrant vector database
    ```bash
